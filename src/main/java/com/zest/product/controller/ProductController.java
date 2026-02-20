@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,6 +22,7 @@ public class ProductController {
 
     private final ProductServiceImpl service;
 
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping
     public ResponseEntity<CustomPageResponse<ProductResponseDTO>> getAll(Pageable pageable) {
         return ResponseEntity.ok(service.getAll(pageable));
@@ -38,6 +40,7 @@ public class ProductController {
         return ResponseEntity.ok(service.getItemsByProductId(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ProductResponseDTO> create(
             @Valid @RequestBody ProductRequestDTO dto) {

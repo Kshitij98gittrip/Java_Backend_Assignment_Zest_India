@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: product-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: product_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - product-network
+
+  app:
+    build: .
+    container_name: product-app
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      JWT_SECRET: lF3Xy2s9dL8aP1mQz7T6uV4xW0yR9kJcB2nM5eH8gI=
+      JWT_ACCESS_EXPIRATION: 900000
+    networks:
+      - product-network
+
+volumes:
+  mysql_data:
+
+networks:
+  product-network:

@@ -31,3 +31,33 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# ===============================
+# Docker
+# ===============================
+.env
+.env.*
+docker-compose.override.yml
+
+# Docker local volumes (if ever created inside project)
+mysql_data/
+docker_data/
+
+# ===============================
+# Logs
+# ===============================
+*.log
+logs/
+
+# ===============================
+# OS files
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Temporary files
+# ===============================
+*.tmp
+*.swp
